@@ -16,14 +16,15 @@ void setup() {
     u8x8.begin();
 
     u8x8.setFont(u8x8_font_amstrad_cpc_extended_r);
-    u8x8.drawString(0, 0, "Hello World!123456789");
+    u8x8.drawString(0, 0, "Hello World!1234");
 }
 
 unsigned long t = 0;
 int displayFps = 15;
 unsigned long updateDelay = 1000 / displayFps;
 
-char buf[30];
+const int maxCharacters=16;
+char buf[maxCharacters];
 
 void loop() {
     // write your code here
@@ -32,7 +33,7 @@ void loop() {
         t = millis() + updateDelay;
 
         for (int i = 0; i < knobs.GetNumberOfKnobs(); ++i) {
-            sprintf(buf, "Knob %d: %d      ", i, knobs.GetValue(i));
+            snprintf(buf, maxCharacters, "Knob %d: %d      ", i, knobs.GetValue(i));
             u8x8.drawString(0, i + 1, buf);
         }
     }
