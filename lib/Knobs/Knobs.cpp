@@ -4,8 +4,6 @@
 
 #include "Knobs.h"
 
-Knob* Knob::instances[3] = { nullptr, nullptr, nullptr };
-
 Knobs::Knobs()
 {
 //    list.add(new Knob(2, 3));
@@ -33,5 +31,5 @@ int Knobs::GetNumberOfKnobs()
 
 int Knobs::GetValue(int32_t num)
 {
-	return list.get(num)->Value();
+	return list.get(num)->GetValue();
 }

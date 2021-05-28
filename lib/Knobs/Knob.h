@@ -5,8 +5,10 @@
 #ifndef VOLUMECONTROLLER_KNOB_H
 #define VOLUMECONTROLLER_KNOB_H
 
-#define ENCODER_DO_NOT_USE_INTERRUPTS 1
+#define ENCODER_DO_NOT_USE_INTERRUPTS
 #include "Encoder.h"
+
+#define MAX_INSTANCES 3
 
 class Knob
 {
@@ -16,43 +18,22 @@ class Knob
 
 	void begin(int pinA, int pinB, int index);
 
-	void switchPressed();
+	void Update();
 
-	int Value() const;
+	int GetValue();
 
  private:
 	int index;
 
 	Encoder* encoder;
 
-	static Knob* instances[3];
+	static Knob* instances[MAX_INSTANCES];
 
-	static void switchPressedExt0()
-	{
-		if (Knob::instances[0] != nullptr)
-		{
-			Knob::instances[0]->switchPressed();
-		}
-	}  // end of Knob::switchPressedExt0
+	static void isr0();
 
-	static void switchPressedExt1()
-	{
-		if (Knob::instances[1] != nullptr)
-		{
-			Knob::instances[1]->switchPressed();
-		}
-	}  // end of Knob::switchPressedExt1
+	static void isr1();
 
-	static void switchPressedExt2()
-	{
-		if (Knob::instances[2] != nullptr)
-		{
-			Knob::instances[2]->switchPressed();
-		}
-	}  // end of Knob::switchPressedExt1
-
-
-
+	static void isr2();
 };
 
 #endif //VOLUMECONTROLLER_KNOB_H
