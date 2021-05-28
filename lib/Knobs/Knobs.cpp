@@ -4,31 +4,34 @@
 
 #include "Knobs.h"
 
-Knobs::Knobs() {
-    list.add(new Knob(2, 3));
-    list.add(new Knob(4, 5));
-    list.add(new Knob(6, 7));
+Knob* Knob::instances[3] = { nullptr, nullptr, nullptr };
+
+Knobs::Knobs()
+{
+//    list.add(new Knob(2, 3));
+//    list.add(new Knob(4, 5));
+//    list.add(new Knob(6, 7));
+
+	auto knob1 = new Knob();
+	knob1->begin(2, 3, 0);
+	list.add(knob1);
+
+	auto knob2 = new Knob();
+	knob2->begin(4, 5, 1);
+	list.add(knob2);
+
+	auto knob3 = new Knob();
+	knob3->begin(6, 7, 2);
+	list.add(knob3);
+
 }
 
-void Knobs::UpdateValues() {
-    for (int i = 0; i < list.size(); ++i) {
-        list.get(i)->UpdateValue();
-    }
+int Knobs::GetNumberOfKnobs()
+{
+	return list.size();
 }
 
-int Knobs::GetValue(int knobNumber) {
-    return list.get(knobNumber)->GetNewValue();
-}
-
-int Knobs::GetNumberOfKnobs() {
-    return list.size();
-}
-
-bool Knobs::HasNewValues() {
-    bool hasNewValues = false;
-    for (int i = 0; i < list.size(); ++i) {
-        hasNewValues = list.get(i)->HasNewValue() || hasNewValues;
-    }
-
-    return hasNewValues;
+int Knobs::GetValue(int32_t num)
+{
+	return list.get(num)->Value();
 }

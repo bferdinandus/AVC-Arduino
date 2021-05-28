@@ -20,7 +20,7 @@ void setup() {
 }
 
 unsigned long t = 0;
-int displayFps = 10;
+int displayFps = 15;
 unsigned long updateDelay = 1000 / displayFps;
 
 char buf[30];
@@ -28,7 +28,7 @@ bool doUpdateOutput = false;
 
 void loop() {
     // write your code here
-    knobs.UpdateValues();
+/*    knobs.UpdateValues();
     if (knobs.HasNewValues()) {
         if (!doUpdateOutput) {
             //delay updating the display to be able to capture one click
@@ -39,16 +39,16 @@ void loop() {
 
         doUpdateOutput = true;
     }
-
-    if (doUpdateOutput && t < millis()) {
+*/
+    if (t < millis()) {
         t = millis() + updateDelay;
         doUpdateOutput = false;
 
         for (int i = 0; i < knobs.GetNumberOfKnobs(); ++i) {
             sprintf(buf, "Knob %d: %d      ", i, knobs.GetValue(i));
             u8x8.drawString(0, i + 1, buf);
-            Serial.print(buf);
+            //Serial.print(buf);
         }
-        Serial.println();
+        //Serial.println();
     }
 }

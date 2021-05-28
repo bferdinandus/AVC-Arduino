@@ -9,22 +9,17 @@
 #include "LinkedList.h"
 #include "Knob.h"
 
-class Knobs {
-private:
-    long oldPosition = INT32_MIN;
-    LinkedList<Knob *> list = LinkedList<Knob *>();
+class Knobs
+{
+ private:
+	LinkedList<Knob*> list = LinkedList<Knob*>();
 
-public:
-    Knobs();
+ public:
+	Knobs();
 
-    void UpdateValues();
+	int GetNumberOfKnobs();
 
-    bool HasNewValues();
-
-    int GetValue(int knobNumber);
-
-    int GetNumberOfKnobs();
+	int GetValue(int32_t num);
 };
-
 
 #endif //VOLUMECONTROLLER_KNOBS_H
