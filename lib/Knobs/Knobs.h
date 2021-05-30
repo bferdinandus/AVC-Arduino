@@ -17,6 +17,8 @@ class Knobs
  public:
 	Knobs();
 
+	void setup();
+
 	int GetNumberOfKnobs();
 
 	int GetValue(int32_t num);
