@@ -5,16 +5,14 @@
 #include "Communication.h"
 #include "KnobData.h"
 
-Communication::Communication() {}
+Communication::Communication(Knobs *pKnobs) : knobs(pKnobs) {}
 
-void Communication::begin() {
+void Communication::setup() {
     Serial.begin(115200);
-    Serial.println("Setup");
+    Serial.println("<Arduino is ready>");
 }
 
-
 void Communication::loop() {
-    recvWithStartEndMarkers();
     if (newData) {
         strcpy(tempChars, receivedChars);
         // this temporary copy is necessary to protect the original data
@@ -22,6 +20,8 @@ void Communication::loop() {
         parseData();
 
         newData = false;
+    } else {
+        recvWithStartEndMarkers();
     }
 }
 
@@ -58,23 +58,14 @@ void Communication::parseData() {      // split the data into its parts
     char *strtokIndx; // this is used by strtok() as an index
 
     strtokIndx = strtok(tempChars, ",");      // get the first part - the string
-    index = atoi(strtokIndx);     // convert this part to an integer
+    int index = atoi(strtokIndx);     // convert this part to an integer
 
+    char knobName[numChars] = {0};
     strtokIndx = strtok(nullptr, ","); // this continues where the previous call left off
     strcpy(knobName, strtokIndx); // copy it to messageFromPC
 
     strtokIndx = strtok(nullptr, ",");
-    percentage = atoi(strtokIndx);     // convert this part to a float
+    int percentage = atoi(strtokIndx);     // convert this part to a float
 
-    parsedDataReady = true;
-}
-
-bool Communication::hasParsedData() const {
-    return parsedDataReady;
-}
-
-KnobData Communication::getParsedData() {
-    parsedDataReady = false;
-
-    return KnobData{.name = knobName, .index = index, .percentage = percentage};
+    knobs->addKnob(KnobData{.name = knobName, .index = index, .percentage = percentage});
 }

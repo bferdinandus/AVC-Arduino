@@ -8,30 +8,26 @@
 
 #include <Arduino.h>
 #include <KnobData.h>
+#include <Knobs.h>
 
 class Communication {
 private:
-    bool newData;
-    bool parsedDataReady;
+    bool newData = false;
 
     static const byte numChars = 32;
-    char receivedChars[numChars];
-    char tempChars[numChars];        // temporary array for use when parsing
+    char receivedChars[numChars] = {};
+    char tempChars[numChars] = {};        // temporary array for use when parsing
 
-    // variables to hold the parsed data
-    char knobName[numChars] = {0};
-    int index;
-    int percentage;
-
+    Knobs *knobs;
 
     void recvWithStartEndMarkers();
 
     void parseData();
 
 public:
-    Communication();
+    Communication(Knobs *pKnobs);
 
-    void begin();
+    void setup();
 
     void loop();
 

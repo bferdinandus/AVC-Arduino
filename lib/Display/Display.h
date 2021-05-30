@@ -5,7 +5,6 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-#include <stdint-gcc.h>
 #include <Knobs.h>
 #include "U8x8lib.h"
 
@@ -18,21 +17,27 @@ private:
     const int displayFps = 15;
     const int updateDelay = 1000 / displayFps;
 
+    Knobs *knobs;
 
-public:
-    Display();
+    void updateKnobsInfo();
 
     void showStartUp();
 
-    void clear();
+    bool isTimeToUpdate();
 
-    void begin();
+    void clear();
 
     void drawString(uint8_t x, uint8_t y, const char *s);
 
-    void updateKnobsInfo(Knobs *knobs);
+public:
+    Display(Knobs *pKnobs);
 
-    bool isTimeToUpdate();
+    void setup();
+
+    void loop();
+
+    virtual ~Display();
+
 };
 
 #endif //_DISPLAY_H_

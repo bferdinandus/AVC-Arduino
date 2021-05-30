@@ -6,13 +6,13 @@
 #include "Display.h"
 
 
-Display::Display() {
+Display::Display(Knobs *pKnobs) : knobs(pKnobs) {
     // init display
     //U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE); // graphic driver
     u8x8 = new U8X8_SSD1306_128X64_NONAME_HW_I2C(); //text driver
 }
 
-void Display::begin() {
+void Display::setup() {
     u8x8->begin();
     u8x8->setFont(u8x8_font_pcsenior_r);
 
@@ -20,12 +20,16 @@ void Display::begin() {
     delay(2000);
     clear();
 }
+void Display::loop()
+{
+    updateKnobsInfo();
+}
 
 void Display::showStartUp() {
     u8x8->draw2x2String(3, 4, "A.V.C.");
 }
 
-void Display::updateKnobsInfo(Knobs *knobs) {
+void Display::updateKnobsInfo() {
 
     if (!isTimeToUpdate()) {
         return;
@@ -40,7 +44,7 @@ void Display::updateKnobsInfo(Knobs *knobs) {
         Knob *knob = knobs->getKnob(i);
         if (knob != nullptr) {
             snprintf(buf, maxCharacters, "%s: %d      ", knob->getName().c_str(), knob->getValue());
-            u8x8->drawString(0, i + 2, buf);
+            u8x8->drawString(0, i*2 + 2, buf);
         }
     }
 }
@@ -60,4 +64,9 @@ bool Display::isTimeToUpdate() {
     }
 
     return false;
+}
+
+Display::~Display() {
+    // delete u8x8;
+    // u8x8 = nullptr;
 }

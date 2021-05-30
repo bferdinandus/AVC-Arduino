@@ -12,10 +12,12 @@
 class Knobs
 {
  private:
-	Knob* list[3] = {};
+    Knob* list[3] = {};
 
  public:
-	void begin();
+    Knobs();
+
+    void setup();
 
 	int getNumberOfKnobs();
 

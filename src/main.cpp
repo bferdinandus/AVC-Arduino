@@ -4,29 +4,17 @@
 #include "Communication.h"
 
 Knobs knobs;
-Display display;
-Communication communication;
-
+Communication communication(&knobs);
+Display display(&knobs);
 
 void setup() {
-
-    communication.begin();
-
-    display.begin();
-
-    knobs.begin();
+    knobs.setup();
+    communication.setup();
+    display.setup();
 }
 
 void loop() {
-
-    // if computer connected then display knobs info
-    display.updateKnobsInfo(&knobs);
-
-    // todo: wait for connection from computer
+    //knobs.loop();
     communication.loop();
-    if (communication.hasParsedData()) {
-        knobs.addKnob(communication.getParsedData());
-    }
-
-    // todo: show receiving data
+    display.loop();
 }

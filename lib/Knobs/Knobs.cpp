@@ -4,7 +4,9 @@
 
 #include "Knobs.h"
 
-void Knobs::begin() {
+Knobs::Knobs() {}
+
+void Knobs::setup() {
 }
 
 int Knobs::getNumberOfKnobs() {
@@ -46,3 +48,5 @@ Knobs::~Knobs() {
         }
     }
 }
+
+
