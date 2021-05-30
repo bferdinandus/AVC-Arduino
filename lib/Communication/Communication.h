@@ -2,6 +2,10 @@
 // Created by Ben Ferdinandus on 30-5-2021.
 //
 
+// I ised this source to come up with this class
+// https://forum.arduino.cc/t/serial-input-basics-updated/382007/3
+//
+
 #ifndef VOLUMECONTROLLER_COMMUNICATION_H
 #define VOLUMECONTROLLER_COMMUNICATION_H
 
@@ -30,11 +34,6 @@ public:
     void setup();
 
     void loop();
-
-
-    bool hasParsedData() const;
-
-    KnobData getParsedData();
 };
 
 
