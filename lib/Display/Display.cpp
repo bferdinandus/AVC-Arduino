@@ -15,13 +15,17 @@ Display::Display() {
 void Display::begin() {
     u8x8->begin();
     u8x8->setFont(u8x8_font_pcsenior_r);
+
+    showStartUp();
+    delay(2000);
+    clear();
 }
 
 void Display::showStartUp() {
     u8x8->draw2x2String(3, 4, "A.V.C.");
 }
 
-void Display::showKnobsInfo(Knobs *knobs) {
+void Display::updateKnobsInfo(Knobs *knobs) {
 
     if (!isTimeToUpdate()) {
         return;

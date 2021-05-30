@@ -30,7 +30,7 @@ public:
 
     void drawString(uint8_t x, uint8_t y, const char *s);
 
-    void showKnobsInfo(Knobs *knobs);
+    void updateKnobsInfo(Knobs *knobs);
 
     bool isTimeToUpdate();
 };

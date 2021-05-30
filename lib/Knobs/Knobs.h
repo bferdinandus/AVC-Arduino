@@ -17,7 +17,7 @@ class Knobs
  public:
 	Knobs();
 
-	void setup();
+	void begin();
 
 	int GetNumberOfKnobs();
 

@@ -7,7 +7,7 @@
 Knobs::Knobs() {
 }
 
-void Knobs::setup() {
+void Knobs::begin() {
     auto knob1 = new Knob();
     knob1->begin(2, 3, 0);
     list.add(knob1);
