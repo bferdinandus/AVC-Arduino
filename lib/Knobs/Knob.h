@@ -18,17 +18,20 @@
 class Knob {
 
 public:
-    // Knob(int pinA, int pinB);
-
     void begin(int pinA, int pinB, int index);
 
     void Update();
 
-    int GetValue();
+    int getValue();
+
+    const String &getName() const;
+
+    void setName(String newName);
+
+    virtual ~Knob();
 
 private:
-    int index;
-
+    String name;
     Encoder *encoder;
 
     static Knob *instances[MAX_INSTANCES];
@@ -38,6 +41,8 @@ private:
     static void isr1();
 
     static void isr2();
+
+
 };
 
 #endif //VOLUMECONTROLLER_KNOB_H

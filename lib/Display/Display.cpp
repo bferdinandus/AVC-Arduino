@@ -36,9 +36,12 @@ void Display::updateKnobsInfo(Knobs *knobs) {
 
     u8x8->drawString(0, 0, "VolumeController");
 
-    for (int i = 0; i < knobs->GetNumberOfKnobs(); ++i) {
-        snprintf(buf, maxCharacters, "Knob %d: %d      ", i, knobs->GetValue(i));
-        u8x8->drawString(0, i + 2, buf);
+    for (int i = 0; i < knobs->getNumberOfKnobs(); ++i) {
+        Knob *knob = knobs->getKnob(i);
+        if (knob != nullptr) {
+            snprintf(buf, maxCharacters, "%s: %d      ", knob->getName().c_str(), knob->getValue());
+            u8x8->drawString(0, i + 2, buf);
+        }
     }
 }
 

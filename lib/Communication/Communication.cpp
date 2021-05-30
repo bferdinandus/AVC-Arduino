@@ -69,14 +69,6 @@ void Communication::parseData() {      // split the data into its parts
     parsedDataReady = true;
 }
 
-void Communication::showParsedData() {
-    auto data = getParsedData();
-
-    char buf[100];
-    snprintf(buf, 100, "index: %d name: %s percentage: %d", data.index, data.name.c_str(), data.percentage);
-    Serial.println(buf);
-}
-
 bool Communication::hasParsedData() const {
     return parsedDataReady;
 }

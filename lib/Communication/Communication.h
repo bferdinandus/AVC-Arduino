@@ -35,7 +35,6 @@ public:
 
     void loop();
 
-    void showParsedData();
 
     bool hasParsedData() const;
 

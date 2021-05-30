@@ -25,7 +25,7 @@ void loop() {
     // todo: wait for connection from computer
     communication.loop();
     if (communication.hasParsedData()) {
-        //knobs.AddKnob(communication.getParsedData());
+        knobs.addKnob(communication.getParsedData());
     }
 
     // todo: show receiving data

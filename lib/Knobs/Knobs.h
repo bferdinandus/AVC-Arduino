@@ -6,22 +6,24 @@
 #define VOLUMECONTROLLER_KNOBS_H
 
 #include "Arduino.h"
-#include "LinkedList.h"
 #include "Knob.h"
+#include <KnobData.h>
 
 class Knobs
 {
  private:
-	LinkedList<Knob*> list = LinkedList<Knob*>();
+	Knob* list[3] = {};
 
  public:
-	Knobs();
-
 	void begin();
 
-	int GetNumberOfKnobs();
+	int getNumberOfKnobs();
 
-	int GetValue(int32_t num);
+	Knob * getKnob(int32_t index);
+
+    void addKnob(const KnobData& data);
+
+    virtual ~Knobs();
 };
 
 #endif //VOLUMECONTROLLER_KNOBS_H

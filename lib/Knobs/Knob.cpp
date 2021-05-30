@@ -7,9 +7,7 @@
 
 Knob *Knob::instances[MAX_INSTANCES] = {};
 
-// Class members
 void Knob::begin(int pinA, int pinB, int index) {
-    this->index = index;
     encoder = new Encoder(pinA, pinB);
 
     switch (index) {
@@ -30,13 +28,22 @@ void Knob::begin(int pinA, int pinB, int index) {
             break;
     }
 
+    name = "Not Set";
 }
 
 void Knob::Update() {
     encoder->read(); // read is also used to update the encoder state
 }
 
-int Knob::GetValue() {
+const String &Knob::getName() const {
+    return name;
+}
+
+void Knob::setName(const String newName) {
+    Knob::name = newName;
+}
+
+int Knob::getValue() {
     return encoder->read();
 }
 
@@ -50,4 +57,9 @@ void Knob::isr1() {
 
 void Knob::isr2() {
     Knob::instances[2]->Update();
+}
+
+Knob::~Knob() {
+    delete encoder;
+    encoder = nullptr;
 }
