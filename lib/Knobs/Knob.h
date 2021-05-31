@@ -33,6 +33,7 @@ public:
 private:
     String name;
     Encoder *encoder;
+    int position = 0;
 
     static Knob *instances[MAX_INSTANCES];
 
@@ -41,8 +42,6 @@ private:
     static void isr1();
 
     static void isr2();
-
-
 };
 
 #endif //VOLUMECONTROLLER_KNOB_H
