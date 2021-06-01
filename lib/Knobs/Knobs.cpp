@@ -37,6 +37,7 @@ void Knobs::addKnob(const KnobData &data) {
         list[data.index] = knob;
     }
     knob->setName(data.name);
+    knob->setValue(data.percentage);
 }
 
 Knobs::~Knobs() {

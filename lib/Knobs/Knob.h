@@ -24,6 +24,8 @@ public:
 
     int getValue();
 
+    void setValue(int value);
+
     const String &getName() const;
 
     void setName(String newName);

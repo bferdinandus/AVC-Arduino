@@ -46,16 +46,29 @@ void Knob::setName(const String newName) {
 int Knob::getValue() {
     int value = position >> 2; // position divided by 4
     if (value < 0) {
+        setValue(0);
         value = 0;
-        encoder->write(0);
+    }
+
+    if (value > 100) {
+        setValue(100);
+        value = 100;
+    }
+
+    return value;
+}
+
+void Knob::setValue(int value) {
+    if (value < 0) {
+        value = 0;
     }
 
     if (value > 100) {
         value = 100;
-        encoder->write(100 << 2);
     }
 
-    return value;
+    position = value << 2;
+    encoder->write(position);
 }
 
 void Knob::isr0() {
