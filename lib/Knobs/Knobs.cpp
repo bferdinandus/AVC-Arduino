@@ -17,7 +17,7 @@ Knob *Knobs::getKnob(int32_t index) {
     return list[index];
 }
 
-void Knobs::addKnob(const KnobData &data) {
+Knob *Knobs::addKnob(const KnobData &data) {
     Knob *knob = list[data.index];
     if (knob == nullptr) {
         knob = new Knob();
@@ -38,6 +38,8 @@ void Knobs::addKnob(const KnobData &data) {
     }
     knob->setName(data.name);
     knob->setValue(data.percentage);
+
+    return knob;
 }
 
 Knobs::~Knobs() {

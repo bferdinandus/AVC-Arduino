@@ -23,7 +23,7 @@ class Knobs
 
 	Knob * getKnob(int32_t index);
 
-    void addKnob(const KnobData& data);
+    Knob * addKnob(const KnobData& data);
 
     virtual ~Knobs();
 };

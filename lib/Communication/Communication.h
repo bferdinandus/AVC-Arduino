@@ -16,13 +16,11 @@
 
 class Communication {
 private:
+    Knobs *knobs;
     bool newData = false;
-
     static const byte numChars = 32;
     char receivedChars[numChars] = {};
     char tempChars[numChars] = {};        // temporary array for use when parsing
-
-    Knobs *knobs;
 
     void recvWithStartEndMarkers();
 
@@ -34,6 +32,7 @@ public:
     void setup();
 
     void loop();
+
 };
 
 

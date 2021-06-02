@@ -17,6 +17,19 @@
 
 class Knob {
 
+private:
+    String name;
+    Encoder *encoder;
+    int position = 0;
+
+    static Knob *instances[MAX_INSTANCES];
+
+    static void isr0();
+
+    static void isr1();
+
+    static void isr2();
+
 public:
     void begin(int pinA, int pinB, int index);
 
@@ -31,19 +44,6 @@ public:
     void setName(String newName);
 
     virtual ~Knob();
-
-private:
-    String name;
-    Encoder *encoder;
-    int position = 0;
-
-    static Knob *instances[MAX_INSTANCES];
-
-    static void isr0();
-
-    static void isr1();
-
-    static void isr2();
 };
 
 #endif //VOLUMECONTROLLER_KNOB_H
