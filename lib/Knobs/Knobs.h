@@ -21,11 +21,14 @@ class Knobs
 
 	int getNumberOfKnobs();
 
-	Knob * getKnob(int32_t index);
-
     Knob * addKnob(const KnobData& data);
 
+	Knob * getKnob(int32_t index);
+
+    bool hasAnyKnobNewValue();
+
     virtual ~Knobs();
+
 };
 
 #endif //VOLUMECONTROLLER_KNOBS_H

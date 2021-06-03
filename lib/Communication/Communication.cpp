@@ -23,6 +23,13 @@ void Communication::loop() {
     } else {
         recvWithStartEndMarkers();
     }
+
+    for (int i = 0; i < knobs->getNumberOfKnobs(); ++i) {
+        Knob *knob = knobs->getKnob(i);
+        if (knob != nullptr && knob->hasNewValue()) {
+            Serial.println(String("<" + String(i) + "," + knob->getName() + "," + knob->getValue(true) + ">"));
+        }
+    }
 }
 
 void Communication::recvWithStartEndMarkers() {

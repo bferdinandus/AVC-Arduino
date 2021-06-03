@@ -13,6 +13,16 @@ int Knobs::getNumberOfKnobs() {
     return sizeof list / sizeof list[0];
 }
 
+bool Knobs::hasAnyKnobNewValue() {
+    for (int i = 0; i < getNumberOfKnobs(); ++i) {
+        if (list[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 Knob *Knobs::getKnob(int32_t index) {
     return list[index];
 }

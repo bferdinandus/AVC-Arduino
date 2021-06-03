@@ -32,7 +32,16 @@ void Knob::begin(int pinA, int pinB, int index) {
 }
 
 void Knob::Update() {
-    position = encoder->read(); // read is also used to update the encoder state
+    // read is also used to update the encoder state
+    position = encoder->read();
+//    if (value != oldValue) {
+//        newValue = true;
+//        oldValue = value;
+//    }
+}
+
+bool Knob::hasNewValue() {
+    return newValue;
 }
 
 const String &Knob::getName() const {
@@ -43,32 +52,41 @@ void Knob::setName(const String newName) {
     Knob::name = newName;
 }
 
-int Knob::getValue() {
-    int value = position >> 2; // position divided by 4
+int Knob::getValue(bool resetNewValueFlag) {
+    if (resetNewValueFlag) {
+        newValue = false;
+    }
+
+    value = position / 4;
+
     if (value < 0) {
         setValue(0);
-        value = 0;
     }
 
     if (value > 100) {
         setValue(100);
-        value = 100;
     }
+
+//    if (value != oldValue) {
+//        newValue = true;
+//        oldValue = value;
+//    }
 
     return value;
 }
 
-void Knob::setValue(int value) {
-    if (value < 0) {
-        value = 0;
+void Knob::setValue(int sValue) {
+    if (sValue < 0) {
+        sValue = 0;
     }
 
-    if (value > 100) {
-        value = 100;
+    if (sValue > 100) {
+        sValue = 100;
     }
 
-    position = value << 2;
-    encoder->write(position);
+    value = sValue;
+    position = sValue * 4;
+    //encoder->write(position);
 }
 
 void Knob::isr0() {

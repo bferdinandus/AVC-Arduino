@@ -20,7 +20,10 @@ class Knob {
 private:
     String name;
     Encoder *encoder;
-    int position = 0;
+    volatile int value = 0;
+    volatile int position = 0;
+    int oldValue = 0;
+    bool newValue;
 
     static Knob *instances[MAX_INSTANCES];
 
@@ -35,7 +38,9 @@ public:
 
     void Update();
 
-    int getValue();
+    bool hasNewValue();
+
+    int getValue(bool resetNewValueFlag = false);
 
     void setValue(int value);
 
