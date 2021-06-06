@@ -43,7 +43,7 @@ void Display::updateKnobsInfo() {
     for (int i = 0; i < knobs->getNumberOfKnobs(); ++i) {
         Knob *knob = knobs->getKnob(i);
         if (knob != nullptr) {
-            snprintf(buf, maxCharacters, "%s:", knob->getName().c_str());
+            snprintf(buf, maxCharacters, "%s:", knob->getName());
             u8x8->drawString(0, i*2 + 3, buf);
             snprintf(buf, maxCharacters, "%3d", knob->getValue());
             u8x8->draw2x2String(10, i*2 + 2, buf);

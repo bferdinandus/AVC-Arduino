@@ -11,21 +11,13 @@
 
 #define ENCODER_DO_NOT_USE_INTERRUPTS
 
-#include "Encoder.h"
+#include <Arduino.h>
+#include <Encoder.h>
+#include <LinkedList.h>
 
-#define MAX_INSTANCES 3
 
 class Knob {
-
-private:
-    String name;
-    Encoder *encoder;
-    volatile int value = 0;
-    volatile int position = 0;
-    int oldValue = 0;
-    bool newValue;
-
-    static Knob *instances[MAX_INSTANCES];
+    static LinkedList<Knob *> knobInstances;
 
     static void isr0();
 
@@ -34,21 +26,34 @@ private:
     static void isr2();
 
 public:
-    void begin(int pinA, int pinB, int index);
+    Knob(int pinA, int pinB);
 
-    void Update();
+    void begin();
 
-    bool hasNewValue();
+    void loop();
 
-    int getValue(bool resetNewValueFlag = false);
+    int getValue(bool reset = false);
 
     void setValue(int value);
 
-    const String &getName() const;
+    const char *getName();
 
-    void setName(String newName);
+    void setName(String name);
 
-    virtual ~Knob();
+    bool hasNewValue();
+
+    void update();
+
+
+private:
+    int _pinA;
+    int _pinB;
+    volatile int _count = 0;
+    volatile bool _hasNewValue = false;
+    String _name;
+
+    Encoder _encoder;
+
 };
 
 #endif //VOLUMECONTROLLER_KNOB_H

@@ -1,107 +1,89 @@
 //
-// Created by Ben Ferdinandus on 23-5-2021.
+// Created by Ben Ferdinandus on 5-6-2021.
 //
 
 #include "Knob.h"
-#include "EnableInterrupt.h"
+#include <EnableInterrupt.h>
 
-Knob *Knob::instances[MAX_INSTANCES] = {};
+Knob::Knob(int pinA, int pinB) : _pinA(pinA),
+                                 _pinB(pinB),
+                                 _encoder(pinA, pinB) {}
 
-void Knob::begin(int pinA, int pinB, int index) {
-    encoder = new Encoder(pinA, pinB);
-
-    switch (index) {
+void Knob::begin() {
+    switch (knobInstances.size()) {
         case 0:
-            enableInterrupt(pinA, isr0, CHANGE);
-            enableInterrupt(pinB, isr0, CHANGE);
-            instances[0] = this;
+            knobInstances.add(0, this);  // add current instance to `this` list (IMPORTANT!!!)
+            enableInterrupt(_pinA, isr0, CHANGE);
+            enableInterrupt(_pinB, isr0, CHANGE);
             break;
         case 1:
-            enableInterrupt(pinA, isr1, CHANGE);
-            enableInterrupt(pinB, isr1, CHANGE);
-            instances[1] = this;
+            knobInstances.add(1, this);  // add current instance to `this` list (IMPORTANT!!!)
+            enableInterrupt(_pinA, isr1, CHANGE);
+            enableInterrupt(_pinB, isr1, CHANGE);
             break;
         case 2:
-            enableInterrupt(pinA, isr2, CHANGE);
-            enableInterrupt(pinB, isr2, CHANGE);
-            instances[2] = this;
+            knobInstances.add(2, this);  // add current instance to `this` list (IMPORTANT!!!)
+            enableInterrupt(_pinA, isr2, CHANGE);
+            enableInterrupt(_pinB, isr2, CHANGE);
             break;
+        default:
+            Serial.println("Out of ISR functions for Knobs!");
     }
-
-    name = "Not Set";
 }
 
-void Knob::Update() {
-    // read is also used to update the encoder state
-    position = encoder->read();
-//    if (value != oldValue) {
-//        newValue = true;
-//        oldValue = value;
-//    }
+void Knob::loop() {}
+
+int Knob::getValue(bool reset) {
+    if (reset) {
+        _hasNewValue = false;
+    }
+
+    return _count;
+}
+
+void Knob::setValue(int value) {
+    _count = value;
+    _encoder.write(value * 4);
+}
+
+const char *Knob::getName() {
+    return _name.c_str();
+}
+
+void Knob::setName(String name) {
+    _name = name;
 }
 
 bool Knob::hasNewValue() {
-    return newValue;
+    return _hasNewValue;
 }
 
-const String &Knob::getName() const {
-    return name;
+void Knob::update() {
+    int newCount = _encoder.read() / 4;
+    if (newCount != _count) {
+        _count = newCount;
+        _hasNewValue = true;
+    }
 }
 
-void Knob::setName(const String newName) {
-    Knob::name = newName;
-}
 
-int Knob::getValue(bool resetNewValueFlag) {
-    if (resetNewValueFlag) {
-        newValue = false;
-    }
-
-    value = position / 4;
-
-    if (value < 0) {
-        setValue(0);
-    }
-
-    if (value > 100) {
-        setValue(100);
-    }
-
-//    if (value != oldValue) {
-//        newValue = true;
-//        oldValue = value;
-//    }
-
-    return value;
-}
-
-void Knob::setValue(int sValue) {
-    if (sValue < 0) {
-        sValue = 0;
-    }
-
-    if (sValue > 100) {
-        sValue = 100;
-    }
-
-    value = sValue;
-    position = sValue * 4;
-    //encoder->write(position);
-}
+// Outside of class
+LinkedList<Knob *> Knob::knobInstances = LinkedList<Knob *>();
 
 void Knob::isr0() {
-    Knob::instances[0]->Update();
+    if (Knob::knobInstances.get(0) != nullptr) {
+        Knob::knobInstances.get(0)->update();
+    }
 }
 
 void Knob::isr1() {
-    Knob::instances[1]->Update();
+    if (Knob::knobInstances.get(1) != nullptr) {
+        Knob::knobInstances.get(1)->update();
+    }
 }
 
 void Knob::isr2() {
-    Knob::instances[2]->Update();
-}
-
-Knob::~Knob() {
-    delete encoder;
-    encoder = nullptr;
+    if (Knob::knobInstances.get(2) != nullptr) {
+        Knob::knobInstances.get(2)->update();
+    }
 }

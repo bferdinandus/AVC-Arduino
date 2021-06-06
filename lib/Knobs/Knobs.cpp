@@ -30,22 +30,28 @@ Knob *Knobs::getKnob(int32_t index) {
 Knob *Knobs::addKnob(const KnobData &data) {
     Knob *knob = list[data.index];
     if (knob == nullptr) {
-        knob = new Knob();
-
         switch (data.index) {
             case 0:
-                knob->begin(2, 3, data.index);
+                knob = new Knob(2, 3);
                 break;
             case 1:
-                knob->begin(4, 5, data.index);
+                knob = new Knob(4, 5);
                 break;
             case 2:
-                knob->begin(6, 7, data.index);
+                knob = new Knob(6, 7);
                 break;
         }
 
+        if (knob == nullptr) {
+            // adding the knob failed
+            Serial.println("Adding new knob failed (Knobs.cpp@addKnob()");
+            return nullptr;
+        }
+
+        knob->begin();
         list[data.index] = knob;
     }
+
     knob->setName(data.name);
     knob->setValue(data.percentage);
 
