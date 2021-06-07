@@ -40,12 +40,10 @@ Knob *Knobs::addKnob(const KnobData &data) {
             case 2:
                 knob = new Knob(6, 7);
                 break;
-        }
-
-        if (knob == nullptr) {
-            // adding the knob failed
-            Serial.println("Adding new knob failed (Knobs.cpp@addKnob()");
-            return nullptr;
+            default:
+                // adding the knob failed
+                Serial.println("Adding new knob failed (Knobs.cpp@addKnob()");
+                return nullptr;
         }
 
         knob->begin();

@@ -5,9 +5,9 @@
 #ifndef VOLUMECONTROLLER_KNOBS_H
 #define VOLUMECONTROLLER_KNOBS_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "Knob.h"
-#include <KnobData.h>
+#include "KnobData.h"
 
 class Knobs
 {
